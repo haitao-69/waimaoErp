@@ -23,6 +23,7 @@ public class UserResources {
     public UserResources(UserService userService) {
         this.userService = userService;
     }
+
     @PostMapping("/users")
     public ResponseEntity<HashMap<String, Object>> showRegisterView(User User) {
         HashMap<String,Object> resultMap = new HashMap();
@@ -44,6 +45,7 @@ public class UserResources {
             return resultEntity;
         }
     }
+
     @PostMapping("/login")
     public ResponseEntity<HashMap<String, Object>> login(User User) {
         HashMap<String,Object> resultMap = new HashMap();
