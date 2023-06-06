@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>registered </title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script type="text/javascript" src="./js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="./js/register.js"></script>
+
+</head>
+<body>
+<div class="f1">
+    <div class="reg_form clearfix" id="reg_form">
+        <form>
+            <ul>
+                <li>
+                    <label>用户名 :</label>
+                    <input type="text" id="user_name" class="show_user_name"  placeholder="请输入3-20个字符的用户名" value="">
+                    <span class="error_tip">提示信息</span>
+                </li>
+                <li>
+                    <label>密码:</label>
+                    <input type="password" id="psw" class="show_password"  placeholder="密码最少3位，最长20位">
+                    <span class="error_tip">提示信息</span>
+                </li>
+                <li>
+                    <label>住址:</label>
+                    <input type="text" id="address" class="show_addr">
+                    <span class="error_tip"></span>
+                </li>
+                <li>
+                    <label>手机号:</label>
+                    <input type="text" id="phone" class="show_phone">
+                    <span class="error_tip">提示信息</span>
+                </li>
+                <li class="reg_sub" id="reg_sub">
+                    <input type="button" value="注 册" onclick="reg()">
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+</body>
+</html>
