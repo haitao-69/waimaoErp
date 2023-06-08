@@ -215,6 +215,51 @@
 
 
 
+//商品循环展示函数
+function zhanshi(response) {
+
+                    // 请求成功时的回调函数
+
+                    // 获取表格的tbody元素
+                    var tbody = $('#productManagement tbody');
+                    // 遍历返回的商品数据之前清空表格内容
+                    tbody.empty();
+
+                    // 清空表格内容
+                    tbody.empty();
+
+                    // 遍历返回的商品数据
+                    $.each(response.data, function(index, item) {
+                        // 创建表格行
+                        var row = $('<tr>');
+
+                        // 创建并添加单元格
+                        var nameCell = $('<td>').text(item.goodsName).addClass("fixed-width-cell");
+                        var imgElement = $('<img>').attr('src',"http://localhost:9000/waimaoErp/images/goods/" + item.imgUrl).addClass("fixed-width-cell");
+                        var priceCell = $('<td>').text(item.unit).addClass("fixed-width-cell");
+                        var inventoryCell = $('<td>').text(item.inventory).addClass("fixed-width-cell");
+                        var descriptionCell = $('<td>').text(item.description).addClass("fixed-width-cell")
+                        var typeCell = $('<td>').text(item.type).addClass("fixed-width-cell");
+                        var putTimeCell = $('<td>').text(item.putTime).addClass("fixed-width-cell");
+
+                        var button = $('<button class="btn btn-primary" onclick="updGoods('+ item.goodsId +')">').text("编辑");
+                        var buttonCell = $('<td>').addClass("fixed-width-cell").append(button);
+
+                        var button2 = $('<button class="btn btn-danger" onclick="delGoods('+ item.goodsId +')">').text("删除");
+                        var buttonCell2 = $('<td>').addClass("fixed-width-cell").append(button2);
+
+                        // 将单元格添加到行中
+                        row.append(nameCell, imgElement, priceCell, inventoryCell, descriptionCell, typeCell, putTimeCell, buttonCell, buttonCell2);
+
+                        // 将行添加到表格的tbody中
+                        tbody.append(row);
+                    });
+}
+
+
+
+
+
     //搜索功能
     function cha() {
             $.ajax({
@@ -224,7 +269,9 @@
                     search: $("#search").val(),
                        },
                 success: function(response) {
-                       console.log(response.data);
+                       zhanshi(response);
+
+
   },
                 error: function(error) {
                     console.log(error);
@@ -452,43 +499,7 @@
                 method: 'GET', // 根据需要使用GET或POST方法
                 dataType: 'json', // 指定数据类型为JSON
                 success: function(response) {
-
-                    // 请求成功时的回调函数
-
-                    // 获取表格的tbody元素
-                    var tbody = $('#productManagement tbody');
-                    // 遍历返回的商品数据之前清空表格内容
-                    tbody.empty();
-
-                    // 清空表格内容
-                    tbody.empty();
-
-                    // 遍历返回的商品数据
-                    $.each(response.data, function(index, item) {
-                        // 创建表格行
-                        var row = $('<tr>');
-
-                        // 创建并添加单元格
-                        var nameCell = $('<td>').text(item.goodsName).addClass("fixed-width-cell");
-                        var imgElement = $('<img>').attr('src',"http://localhost:9000/waimaoErp/images/goods/" + item.imgUrl).addClass("fixed-width-cell");
-                        var priceCell = $('<td>').text(item.unit).addClass("fixed-width-cell");
-                        var inventoryCell = $('<td>').text(item.inventory).addClass("fixed-width-cell");
-                        var descriptionCell = $('<td>').text(item.description).addClass("fixed-width-cell")
-                        var typeCell = $('<td>').text(item.type).addClass("fixed-width-cell");
-                        var putTimeCell = $('<td>').text(item.putTime).addClass("fixed-width-cell");
-
-                        var button = $('<button class="btn btn-primary" onclick="updGoods('+ item.goodsId +')">').text("编辑");
-                        var buttonCell = $('<td>').addClass("fixed-width-cell").append(button);
-
-                        var button2 = $('<button class="btn btn-danger" onclick="delGoods('+ item.goodsId +')">').text("删除");
-                        var buttonCell2 = $('<td>').addClass("fixed-width-cell").append(button2);
-
-                        // 将单元格添加到行中
-                        row.append(nameCell, imgElement, priceCell, inventoryCell, descriptionCell, typeCell, putTimeCell, buttonCell, buttonCell2);
-
-                        // 将行添加到表格的tbody中
-                        tbody.append(row);
-                    });
+                    zhanshi(response);
                 },
                 error: function(xhr, status, error) {
                     // 请求发生错误时的回调函数
