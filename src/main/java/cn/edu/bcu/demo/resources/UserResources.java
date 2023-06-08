@@ -50,6 +50,7 @@ public class UserResources {
     public ResponseEntity<HashMap<String, Object>> login(User User) {
         HashMap<String,Object> resultMap = new HashMap();
         ResponseEntity<HashMap<String,Object>> resultEntity = null;
+
         try {
             int result = this.userService.login(User);
             if(result>0) {

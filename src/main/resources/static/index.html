@@ -1,22 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>天天购物-首页</title>
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
+    <!-- <script type="text/javascript" src="js/slide.js"></script> -->
 </head>
+
 <body>
 <div class="header_con">
     <div class="header">
-        <div class="welcome fl">欢迎!</div>
+        <div class="welcome fl">欢迎来到天天购物!</div>
         <div id="welcomeUserDv" class="fr welcome-user">
         </div>
     </div>
 </div>
-<p>登录成功！！！</p>
+
+<div class="search_bar clearfix">
+    <a href="index.html" class="logo fl"><img src="images/logo.png"></a>
+    <!--	<div class="search_con fl">-->
+    <!--		<input type="text" class="input_text fl" name="" id="sou" placeholder="搜索商品">-->
+    <!--		<input onclick="cha()" type="button" class="input_btn fr" name="" value="搜索">-->
+    <!--	</div>-->
+    <div class="guest_cart fr">
+        <a href="car.html" class="cart_name fl">我的购物车</a>
+    </div>
+</div>
+
+<div class="navbar_con">
+    <div class="navbar">
+        <h1 class="fl"><a href="index.html" style="color:white">首页</a></h1>
+        <ul class="navlist fl">
+            <li><a href="#" onclick="getAllGoods()">全部商品</a></li>
+        </ul>
+    </div>
+</div>
+
+<div id="firstCategoriesDv" class="center_con clearfix">
+    <ul class="subnav fl pro_class" id="firstCategories">
+        <li><a href="#" onclick="getTypeGoods('手机')" class="fruit">手机</a></li>
+        <li><a href="#" onclick="getTypeGoods('鞋子')" class="seafood">鞋子</a></li>
+        <li><a href="#" onclick="getTypeGoods('零食')" class="meet">零食</a></li>
+        <li><a href="#" onclick="getTypeGoods('服饰')" class="egg">服饰</a></li>
+        <li><a href="#" onclick="getTypeGoods('书籍')" class="vegetables">书籍</a></li>
+        <li><a href="#" onclick="getTypeGoods('化妆品')" class="ice">化妆品</a></li>
+    </ul>
+    <div id="slider" class="slide fl">
+        <ul class="slide_pics">
+            <li><a href="#model2"><img src="images/slide.jpg" alt="幻灯片"></a></li>
+            <li><a href="#model2"><img src="images/slide02.jpg" alt="幻灯片"></a></li>
+            <li><a href="#model3"><img src="images/slide03.jpg" alt="幻灯片"></a></li>
+            <li><a href="#model8"><img src="images/slide04.jpg" alt="幻灯片"></a></li>
+        </ul>
+        <div class="prev" onclick="prevSlide()"></div>
+        <div class="next" onclick="nextSlide()"></div>
+        <ul class="points"></ul>
+    </div>
+    <div class="adv fl">
+        <img src="images/adv01.jpg">
+        <img src="images/adv02.jpg">
+    </div>
+</div>
+
+<div class="sexy">
+    <div class="list_model">
+        <ul class="goods_list fl" id="dynamicGoodsList">
+            <!--			 <li>-->
+            <!--                <h4><a href="#">云南菠萝</a></h4>-->
+            <!--                <a href="#"><img src="https://zjxsx.oss-cn-beijing.aliyuncs.com/fruit/15916847351616689.jpg"></a>-->
+            <!--                <div class="prize">¥ 18 <a href="#"><div class="shopping-cart"></div></a></div>-->
+            <!--            </li>-->
+        </ul>
+    </div>
+</div>
+
+<!--<div class="footer" style="margin: 100px">-->
+<!--	<div class="foot_link">-->
+<!--		<a href="#">关于我们</a>-->
+<!--		<span>|</span>-->
+<!--		<a href="#">联系我们</a>-->
+<!--		<span>|</span>-->
+<!--		<a href="#">招聘人才</a>-->
+<!--		<span>|</span>-->
+<!--		<a href="#">友情链接</a>-->
+<!--	</div>-->
+<!--	<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>-->
+<!--	<p>电话：010-****888 京ICP备*******8号</p>-->
+<!--</div>-->
+
+<script type="text/javascript" src="js/index.js"></script>
+<script>
+	var slideIndex = 0;
+	var slideItems = document.getElementsByClassName('slide_pics')[0].getElementsByTagName('li');
+
+	function showSlide(index) {
+		if (index < 0) {
+			index = slideItems.length - 1;
+		} else if (index >= slideItems.length) {
+			index = 0;
+		}
+
+		for (var i = 0; i < slideItems.length; i++) {
+			slideItems[i].style.display = 'none';
+		}
+
+		slideItems[index].style.display = 'block';
+		slideIndex = index;
+	}
+
+	function prevSlide() {
+		showSlide(slideIndex - 1);
+	}
+
+	function nextSlide() {
+		showSlide(slideIndex + 1);
+	}
+
+	showSlide(slideIndex);
+</script>
+
 </body>
+
 </html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>管理员-首页</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</head>
+<style>
+    .fixed-width-header,
+    .fixed-width-cell {
+        width: 150px; /* 设置所需的固定宽度 */
+    }
+</style>
+
+
+<body>
+<div class="header_con">
+    <div class="header">
+        <div class="welcome fl">欢迎您，管理员!</div>
+        <div id="welcomeUserDv" class="fr welcome-user"></div>
+    </div>
+</div>
+
+<!--搜索框-->
+<div class="search_bar">
+    <input type="text" class="input_text" name="" id="search" placeholder="搜索商品">
+    <input onclick="cha()" type="button" class="input_btn" name="" value="搜索">
+</div>
+
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">管理员功能</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showProductManagement()">商品管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showOrderView()">订单查看</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="content">
+                <div id="productManagement" class="d-none">
+<!--                    <h3>商品管理</h3>-->
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">新增商品</button>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th class="fixed-width-header">商品名称</th>
+                            <th class="fixed-width-header">图片</th>
+                            <th class="fixed-width-header">价格</th>
+                            <th class="fixed-width-header">库存</th>
+                            <th class="fixed-width-header">描述</th>
+                            <th class="fixed-width-header">类型</th>
+                            <th class="fixed-width-header">上架时间</th>
+                            <th class="fixed-width-header">操作</th>
+                            <th class="fixed-width-header">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- 商品数据 -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="orderView" class="d-none">
+                    <h3>订单查看</h3>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th class="fixed-width-header">用户姓名</th>
+                            <th class="fixed-width-header">购买商品</th>
+                            <th class="fixed-width-header">订单金额</th>
+                            <th class="fixed-width-header">下单时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- 订单数据 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 新增商品对话框 -->
+<div id="addProductModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">新增商品</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- 在这里添加新增商品的表单内容 -->
+                <form id="addProductForm">
+                    <div class="form-group">
+                        <label for="productName">商品名称</label>
+                        <input type="text" class="form-control" id="productName" placeholder="请输入商品名称" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">价格</label>
+                        <input type="number" class="form-control" id="productPrice" placeholder="请输入商品价格" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productInventory">库存</label>
+                        <input type="number" class="form-control" id="productInventory" placeholder="请输入商品库存" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productDescription">描述</label>
+                        <textarea class="form-control" id="productDescription" rows="3" placeholder="请输入商品描述"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="productType">类型</label>
+                        <select class="form-control" id="productType">
+                            <option value="手机">手机</option>
+                            <option value="鞋子">鞋子</option>
+                            <option value="零食">零食</option>
+                            <option value="服饰">服饰</option>
+                            <option value="书籍">书籍</option>
+                            <option value="化妆品">化妆品</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="productImage">图片</label>
+                        <input type="file" class="form-control-file" id="productImage" accept="image/*">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="addGoods()">新增</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑商品对话框 -->
+<div id="editProductModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">编辑商品</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- 在这里添加编辑商品的表单内容 -->
+                <form id="editProductForm">
+                    <div class="form-group">
+                        <label for="editProductName">商品名称</label>
+                        <input type="text" class="form-control" id="editProductName" placeholder="请输入商品名称" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductPrice">价格</label>
+                        <input type="number" class="form-control" id="editProductPrice" placeholder="请输入商品价格" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductInventory">库存</label>
+                        <input type="number" class="form-control" id="editProductInventory" placeholder="请输入商品库存" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductDescription">描述</label>
+                        <textarea class="form-control" id="editProductDescription" rows="3" placeholder="请输入商品描述"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductType">类型</label>
+                        <select class="form-control" id="editProductType">
+                            <option value="手机">手机</option>
+                            <option value="鞋子">鞋子</option>
+                            <option value="零食">零食</option>
+                            <option value="服饰">服饰</option>
+                            <option value="书籍">书籍</option>
+                            <option value="化妆品">化妆品</option>
+                        </select>
+                    </div>
+                    <div id="editProductId" style="display: none"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="updateGoods()">更新</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        isLogin();
+        showProductManagement()
+    });
+
+
+
+    //搜索功能
+    function cha() {
+            $.ajax({
+                url: '/waimaoErp/searchGoods',
+                type: 'POST',
+                data: {
+                    search: $("#search").val(),
+                       },
+                success: function(response) {
+                       console.log(response.data);
+  },
+                error: function(error) {
+                    console.log(error);
+  }
+});
+    };
+
+
+
+    //更新商品
+    function updateGoods() {
+        // 获取编辑商品对话框中表单的数据
+        var name = $("#editProductName").val();
+        var price = $("#editProductPrice").val();
+        var inventory = $("#editProductInventory").val();
+        var description = $("#editProductDescription").val();
+        var type = $("#editProductType").val();
+        var id = $("#editProductId").val();
+
+        // 构造请求参数
+        var data = {
+            goodsId: id,
+            goodsName: name,
+            unit: price,
+            inventory: inventory,
+            description: description,
+            type: type
+        };
+
+        // 执行更新商品的操作，可以通过AJAX请求将数据发送给服务器进行处理
+        $.ajax(
+            {
+                type:"POST",
+                url:"/waimaoErp/updGoods",
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success:function(result){
+
+                    alert(result.data)
+                    getGoods();
+                    // 关闭编辑商品对话框
+                    $("#editProductModal").modal("hide");
+                },
+                error:function(result){ //当返回结果的http响应码为500时
+                    alert("服务器程序出现错误");
+                    console.log(result);
+                }
+            }
+        );
+
+
+    }
+
+
+    // 添加商品
+    function addGoods() {
+        // 获取输入框的值
+        var name = $('#productName').val();
+        var price = $('#productPrice').val();
+        var inventory = $('#productInventory').val();
+        var type = $('#productType').val();
+        var description = $('#productDescription').val();
+        var productImage = document.getElementById('productImage').files[0]; // 获取选择的图片文件
+
+
+        // 构造请求参数
+        var data = {
+            goodsName: name,
+            unit: price,
+            inventory: inventory,
+            description: description,
+            type: type
+        };
+
+        // 创建一个FormData对象
+        var formData = new FormData();
+        // 添加文本字段数据
+        formData.append('goodsName', name);
+        formData.append('unit', price);
+        formData.append('inventory', inventory);
+        formData.append('description', description);
+        formData.append('type', type);
+
+        // 添加图片文件
+        formData.append('imgUrl', productImage);
+
+        // 发送AJAX请求
+        $.ajax({
+            url: '/waimaoErp/addGoods', // 替换为您的API端点URL
+            method: 'POST', // 根据需要使用GET或POST方法
+            data: formData,
+            contentType: false, // 必须设置为false，以便正确处理文件
+            processData: false, // 必须设置为false，以便正确处理文件
+            success: function(response) {
+                // 请求成功时的回调函数
+                alert(response.data);
+                // 清空输入框
+                $('#productName').val('');
+                $('#productPrice').val('');
+                $('#productInventory').val('');
+                $('#productDescription').val('');
+                $('#productImage').val('');
+                // 关闭对话框
+                $('#addProductModal').modal('hide');
+                // 刷新商品列表
+                getGoods();
+            },
+            error: function(xhr, status, error) {
+                // 请求发生错误时的回调函数
+                console.log('AJAX请求失败:', error);
+            }
+        });
+    }
+
+
+
+    // 切换到商品管理功能
+    function showProductManagement() {
+        $(".nav-link").removeClass("active");
+        $("#productManagement").removeClass("d-none");
+        $("#orderView").addClass("d-none");
+        $(".nav-link:contains('商品管理')").addClass("active");
+
+        getGoods()
+    }
+
+    // 切换到订单查看功能
+    function showOrderView() {
+        $(".nav-link").removeClass("active");
+        $("#productManagement").addClass("d-none");
+        $("#orderView").removeClass("d-none");
+        $(".nav-link:contains('订单查看')").addClass("active");
+
+        getOrders()
+    }
+
+    // 该函数的作用是判断用户是否处于登录状态
+    function isLogin() {
+        let ls_adminName = window.localStorage.getItem("LS_ADMINNAME");
+        let str = "";
+        if (ls_adminName == null) { // 代表未登录的状态
+            alert("请先登录！");
+            window.location.href = "Login.html";
+        } else { // 代表登录的状态
+            str = `<div class="user_link fl">
+                        <span>|</span>
+                        欢迎您：<em>${ls_adminName}</em>
+                        <span>|</span>
+                        <a href="#" onclick="loginout();">注销</a>
+                    </div>`;
+            $("#welcomeUserDv").append(str);
+        }
+    }
+
+    function loginout() {
+        window.localStorage.removeItem("LS_ADMINNAME");
+        alert("注销成功!");
+        window.location.href = "adminLogin.html";
+    }
+
+    // 编辑商品
+    function updGoods(goodsId) {
+        console.log(goodsId)
+        // 根据商品ID获取对应的数据，并将数据填充到编辑商品对话框中
+        $.ajax(
+            {
+                type:"get",
+                url:"/waimaoErp/getGoodsId",
+                data:{
+                    goodsId: goodsId
+                },
+                success:function(result){
+                    console.log(result)
+                    // 将数据填充到编辑商品对话框中的表单中
+                    $("#editProductName").val(result.data.goodsName);
+                    $("#editProductPrice").val(result.data.unit)
+                    $("#editProductInventory").val(result.data.inventory)
+                    $("#editProductDescription").val(result.data.description)
+                    $("#editProductType").val(result.data.type)
+                    $("#editProductId").val(result.data.goodsId)
+
+                    // 打开编辑商品对话框
+                    $("#editProductModal").modal("show");
+                },
+                error:function(result){ //当返回结果的http响应码为500时
+                    alert("服务器程序出现错误");
+                    console.log(result);
+                }
+            }
+        );
+
+    }
+
+    // 删除商品
+    function delGoods(goodsId) {
+        console.log(goodsId)
+
+        $.ajax(
+            {
+                type:"post",
+                url:"/waimaoErp/delGoods",
+                data:{
+                    goodsId: goodsId
+                },
+                success:function(result){
+                    alert(result.data)
+                    getGoods()
+                },
+                error:function(result){ //当返回结果的http响应码为500时
+                    alert("服务器程序出现错误");
+                    console.log(result);
+                }
+            }
+        );
+    }
+
+    // 获取所有商品
+    function getGoods() {
+        $(document).ready(function() {
+            // 在页面加载完成后执行以下代码
+
+            // 发起AJAX请求
+            $.ajax({
+                url: '/waimaoErp/getAllGoods', // 替换为你的API端点URL
+                method: 'GET', // 根据需要使用GET或POST方法
+                dataType: 'json', // 指定数据类型为JSON
+                success: function(response) {
+
+                    // 请求成功时的回调函数
+
+                    // 获取表格的tbody元素
+                    var tbody = $('#productManagement tbody');
+                    // 遍历返回的商品数据之前清空表格内容
+                    tbody.empty();
+
+                    // 清空表格内容
+                    tbody.empty();
+
+                    // 遍历返回的商品数据
+                    $.each(response.data, function(index, item) {
+                        // 创建表格行
+                        var row = $('<tr>');
+
+                        // 创建并添加单元格
+                        var nameCell = $('<td>').text(item.goodsName).addClass("fixed-width-cell");
+                        var imgElement = $('<img>').attr('src',"http://localhost:9000/waimaoErp/images/goods/" + item.imgUrl).addClass("fixed-width-cell");
+                        var priceCell = $('<td>').text(item.unit).addClass("fixed-width-cell");
+                        var inventoryCell = $('<td>').text(item.inventory).addClass("fixed-width-cell");
+                        var descriptionCell = $('<td>').text(item.description).addClass("fixed-width-cell")
+                        var typeCell = $('<td>').text(item.type).addClass("fixed-width-cell");
+                        var putTimeCell = $('<td>').text(item.putTime).addClass("fixed-width-cell");
+
+                        var button = $('<button class="btn btn-primary" onclick="updGoods('+ item.goodsId +')">').text("编辑");
+                        var buttonCell = $('<td>').addClass("fixed-width-cell").append(button);
+
+                        var button2 = $('<button class="btn btn-danger" onclick="delGoods('+ item.goodsId +')">').text("删除");
+                        var buttonCell2 = $('<td>').addClass("fixed-width-cell").append(button2);
+
+                        // 将单元格添加到行中
+                        row.append(nameCell, imgElement, priceCell, inventoryCell, descriptionCell, typeCell, putTimeCell, buttonCell, buttonCell2);
+
+                        // 将行添加到表格的tbody中
+                        tbody.append(row);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // 请求发生错误时的回调函数
+                    console.log('AJAX请求失败:', error);
+                }
+            });
+        });
+
+    }
+
+    // 获取所有订单
+    function getOrders() {
+        // 使用Ajax获取订单数据并动态生成表格
+        $.ajax({
+            url: "/waimaoErp/getOrders",
+            type: "GET",
+            success: function(response) {
+                console.log(response)
+                var orderData = response.data; // 假设返回的订单数据为一个数组
+
+                // 清空订单表格的内容
+                $("#orderView tbody").empty();
+
+                // 动态生成订单数据
+                for (var i = 0; i < orderData.length; i++) {
+                    var order = orderData[i];
+                    var row = "<tr>" +
+                        "<td class='fixed-width-cell'>" + order.userName + "</td>" +
+                        "<td class='fixed-width-cell'>" + order.goodsName + "</td>" +
+                        "<td class='fixed-width-cell'>" + order.prize + "</td>" +
+                        "<td class='fixed-width-cell'>" + order.create_time + "</td>" +
+                        "</tr>";
+                    $("#orderView tbody").append(row);
+                }
+            },
+            error: function() {
+                // 处理请求错误的逻辑
+            }
+        });
+    }
+</script>
+</body>
+</html>

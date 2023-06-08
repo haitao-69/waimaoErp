@@ -13,7 +13,7 @@ function login(){
                 if(code == 1000){ //代表登录成功
                     alert(result.msg);
                     window.localStorage.setItem("LS_USERNAME",$("#username").val());
-                    window.location.href = "index.html";
+                    window.location.href = "adminIndex.html";
                 }else if(code == 1002){
                     alert(result.msg);
                 }
